@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <object th:insert="~{fragments/common :: js}" th:remove="tag"></object>
+    <object th:insert="~{fragments/common :: css}" th:remove="tag"></object>
+    <title>Detail Gudang</title>
+</head>
+
+<body>
+    <nav th:replace="~{fragments/navbar :: navbar}"></nav>
+    <div class="container text-center mt-5">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <div class="fs-2 fw-bold">Detail Gudang</div>
+                <a href="#" class="btn btn-primary active" role="button" aria-pressed="true">+ Restock Barang</a>
+            </div>
+            <div class="card-body">
+                <p class="card-text text-start fs-5" th:text="'Nama Gudang : ' + ${gudangDTO.namaGudang}"></p>
+                <p class="card-text text-start fs-5" th:text="'Alamat Gudang : ' + ${gudangDTO.alamatGudang}"></p>
+                <p class="card-text text-start fw-bold fs-4">Daftar barang tersedia:</p>
+                <div th:if="${listBarang != null and not #lists.isEmpty(listBarang)}">
+                    <table class="table table-bordered mt-3">
+                        <thead class="bg-dark text-light">
+                            <tr>
+                                <th>#</th>
+                                <th>SKU</th>
+                                <th>Merk</th>
+                                <th>Stok</th>
+                                <th>Harga</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="barang, iterationStatus : ${listAvailableBarang}">
+                                <th scope="row" th:text="${iterationStatus.count}"></th>
+                                <td th:text="${barang.sku}"></td>
+                                <td th:text="${barang.merk}"></td>
+                                <td th:text="${barang.totalStok}"></td>
+                                <td th:text="${barang.hargaBarang}"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div th:unless="${listBarang != null and not #lists.isEmpty(listBarang)}">
+                    <p class="card-text text-center fs-5 text-danger">Tidak ada barang tersedia.</p>
+                </div>
+                <a th:href="@{/gudang}" class="btn btn-secondary active mt-3" role="button" aria-pressed="true">Kembali</a>
+            </div>                    
+        </div>
+    </div>
+</body>
+
+</html>

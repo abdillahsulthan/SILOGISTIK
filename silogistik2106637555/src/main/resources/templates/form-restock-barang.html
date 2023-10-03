@@ -1,0 +1,56 @@
+<!-- <!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <object th:insert="~{fragments/common :: js}" th:remove="tag"></object>
+    <object th:insert="~{fragments/common :: css}" th:remove="tag"></object>
+    <title>Restock Gudang</title>
+</head>
+
+<body>
+    <nav th:replace="~{fragments/navbar :: navbar}"></nav>
+    <div class="container text-center mt-5">
+        <div class="card">
+            <div class="card-header d-flex justify-content-center align-items-center">
+                <div class="fs-2 fw-bold">Restock Gudang</div>
+            </div>
+            <div class="card-body">
+                <p class="card-text text-start fs-5" th:text="'Nama Gudang : ' + ${gudangDTO.namaGudang}"></p>
+                <p class="card-text text-start fs-5" th:text="'Alamat Gudang : ' + ${gudangDTO.alamatGudang}"></p>
+                <form th:action="@{/gudang/{id}/restock-barang(id=${gudangDTO.idGudang})}" th:object="${gudangDTO}" method="POST">
+                    <table class="table table-bordered">
+                        <thead class="bg-dark text-light">
+                            <tr>
+                                <th>#</th>
+                                <th>Merk Barang</th>
+                                <th>Kuantitas</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="barang, iterationStatus : ${listBarangGudang}">
+                                <td th:text="${iterationStatus.count}"></td>
+                                <td>
+                                    <select class="form-control" th:field="*{listBarangGudang[__${iterationStatus.index}__]}">
+                                        <option th:each="option : ${listBarang}"
+                                                th:value="${option.idBarang}"
+                                                th:text="${option.merk}">
+                                        </option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <input class="form-control" type="number" th:field="*{listBarangGudang[__${iterationStatus.index}__].totalStok}" />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <button class="btn btn-primary" type="submit" name="addRow">Tambah Barang</button>
+                    <button class="btn btn-primary" type="submit">Simpan</button>
+                </form>
+            </div>                    
+        </div>
+    </div>
+</body>
+
+</html> -->
