@@ -12,5 +12,5 @@ import lombok.NoArgsConstructor;
 public class CreateBarangRequestDTO {
     private String merk;
     private int tipeBarang;
-    private BigInteger hargaBarang;
+    private long hargaBarang;
 }

@@ -1,11 +1,12 @@
 package apap.ti.silogistik2106637555.service;
 
+import java.util.List;
+
 import apap.ti.silogistik2106637555.model.Barang;
 
-import java.util.List;
 public interface BarangService {
-    long jumlahBarang();
-    List<Barang> getAllBarang();
-    List<Barang> availableBarang(List<Barang> listBarang);
+    long countBarangOnDB();
     void saveBarang(Barang barang);
+    String generateSKU(Barang barang);
+    List<Barang> getAllBarang();
 }

@@ -28,7 +28,7 @@
                 <td th:text="${gudang.namaGudang}"></td>
                 <td th:text="${gudang.alamatGudang}"></td>
                 <td>
-                    <a th:href="@{/gudang/{id}(id=${gudang.idGudang})}" class="btn btn-secondary btn-sm active" role="button" aria-pressed="true">Detail</a>
+                    <a th:href="@{/gudang/{idGudang}(idGudang=${gudang.idGudang})}" class="btn btn-secondary btn-sm active" role="button" aria-pressed="true">Detail</a>
                 </td>
               </tr>
             </tbody>

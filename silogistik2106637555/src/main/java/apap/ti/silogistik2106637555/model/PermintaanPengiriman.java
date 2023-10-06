@@ -54,10 +54,10 @@ public class PermintaanPengiriman {
     @Column(name = "waktu_permintaan", nullable = false)
     private Date waktuPermintaan;
 
-    @ManyToMany(mappedBy = "listPermintaanPengiriman", fetch = FetchType.LAZY)
-    List<Barang> listBarang;
-
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_karyawan", referencedColumnName = "idKaryawan")
     private Karyawan karyawan;
+
+    @OneToMany(mappedBy = "permintaanPengiriman", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<PermintaanPengirimanBarang> listPermintaanPengirimanBarang;
 }

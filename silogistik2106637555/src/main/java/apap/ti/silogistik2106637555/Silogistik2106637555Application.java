@@ -3,6 +3,7 @@ package apap.ti.silogistik2106637555;
 import java.util.Locale;
 import java.util.ArrayList;
 import java.util.List;
+import java.math.BigInteger;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -11,10 +12,13 @@ import org.springframework.context.annotation.Bean;
 
 import com.github.javafaker.Faker;
 
+import apap.ti.silogistik2106637555.dto.BarangMapper;
 import apap.ti.silogistik2106637555.dto.GudangMapper;
 import apap.ti.silogistik2106637555.dto.KaryawanMapper;
+import apap.ti.silogistik2106637555.dto.request.CreateBarangRequestDTO;
 import apap.ti.silogistik2106637555.dto.request.CreateGudangRequestDTO;
 import apap.ti.silogistik2106637555.dto.request.CreateKaryawanRequestDTO;
+import apap.ti.silogistik2106637555.service.BarangService;
 import apap.ti.silogistik2106637555.service.GudangService;
 import apap.ti.silogistik2106637555.service.KaryawanService;
 import jakarta.transaction.Transactional;
@@ -28,7 +32,7 @@ public class Silogistik2106637555Application {
 
 	@Bean
 	@Transactional
-	CommandLineRunner run(KaryawanService karyawanService, GudangService gudangService, KaryawanMapper karyawanMapper, GudangMapper gudangMapper) {
+	CommandLineRunner run(KaryawanService karyawanService, GudangService gudangService, KaryawanMapper karyawanMapper, GudangMapper gudangMapper, BarangService barangService, BarangMapper barangMapper) {
 		return args -> {
 			var faker = new Faker(new Locale("id", "ID"));
 			List<CreateKaryawanRequestDTO> listKaryawanDTO = new ArrayList<>(); 
@@ -64,6 +68,23 @@ public class Silogistik2106637555Application {
 			for (CreateGudangRequestDTO gudangDTO : listGudangDTO) {
 				var gudang = gudangMapper.createGudangRequestDTOToGudang(gudangDTO);
 				gudangService.saveGudang(gudang);
+			}
+
+			List<CreateBarangRequestDTO> listBarangDTO = new ArrayList<>();
+			for (int i = 0 ; i < 5; i++) {
+				var fakeFood = faker.food();
+				var barangDTO = new CreateBarangRequestDTO();
+				var hargaBarang = faker.number();
+
+				barangDTO.setTipeBarang(3);
+				barangDTO.setMerk(fakeFood.dish());
+				barangDTO.setHargaBarang(hargaBarang.numberBetween(10000, 100000));
+
+				listBarangDTO.add(barangDTO);
+			}
+			for (CreateBarangRequestDTO barangDTO : listBarangDTO) {
+				var barang = barangMapper.createBarangRequestDTOToBarang(barangDTO);
+				barangService.saveBarang(barang);
 			}
 		};
 	}

@@ -1,6 +1,5 @@
 package apap.ti.silogistik2106637555.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,47 +15,37 @@ public class BarangServiceImpl implements BarangService{
     BarangDb barangDb;
 
     @Override
-    public long jumlahBarang() {
+    public long countBarangOnDB() {
         return barangDb.count();
+    }
+
+    @Override
+    public void saveBarang(Barang barang) {
+        barang.setSku(generateSKU(barang));
+        barangDb.save(barang);
+    }
+
+    @Override
+    public String generateSKU(Barang barang) {
+        String sku = "";
+        int tipeBarang = barang.getTipeBarang();
+        String barangKeBerapa = String.format("%03d", (barangDb.findByTipeBarang(tipeBarang).size() + 1));
+        if (tipeBarang == 1) {
+            sku = "ELEC" + barangKeBerapa;
+        }else if (tipeBarang == 2) {
+            sku = "CLOT" + barangKeBerapa;
+        }else if (tipeBarang == 3) {
+            sku = "FOOD" + barangKeBerapa;
+        }else if (tipeBarang == 4) {
+            sku = "COSM" + barangKeBerapa;
+        }else {
+            sku = "TOOL" + barangKeBerapa;
+        }
+        return sku;
     }
 
     @Override
     public List<Barang> getAllBarang() {
         return barangDb.findAll();
-    }
-
-    @Override
-    public List<Barang> availableBarang(List<Barang> listBarang) {
-        List<Barang> listAvailableBarang = new ArrayList<>();
-        for (Barang barang : listBarang) {
-            if(barang.getTotalStok() > 0) {
-                listAvailableBarang.add(barang);
-            }
-        }
-        return listAvailableBarang;
-    }
-
-    @Override
-    public void saveBarang(Barang barang) {
-        String sku = "";
-        barang.setSku(sku);
-        barangDb.save(barang);
-
-        String idBarang = String.format("%03d", barang.getIdBarang());
-        int tipeBarang = barang.getTipeBarang();
-        if (tipeBarang == 1) {
-            sku = "ELEC" + idBarang;
-        }else if (tipeBarang == 2) {
-            sku = "CLOT" + idBarang;
-        }else if (tipeBarang == 3) {
-            sku = "FOOD" + idBarang;
-        }else if (tipeBarang == 4) {
-            sku = "COSM" + idBarang;
-        }else {
-            sku = "TOOL" + idBarang;
-        }
-        
-        barang.setSku(sku);
-        barangDb.save(barang);
     }
 }

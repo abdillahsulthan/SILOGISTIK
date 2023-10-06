@@ -17,13 +17,8 @@ import java.util.List;
 @Entity
 @Table(name = "barang")
 public class Barang {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long idBarang; 
     
-    @NotNull
-    @Column(name = "sku", unique = true, nullable = false)
+    @Id
     private String sku;
 
     @NotNull
@@ -40,13 +35,11 @@ public class Barang {
 
     @NotNull
     @Column(name = "harga_barang", nullable = false)
-    private BigInteger hargaBarang;
+    private long hargaBarang;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "gudang_barang", joinColumns = @JoinColumn(name = "sku"), inverseJoinColumns = @JoinColumn(name = "id_gudang"))
-    List<Gudang> listGudang;
+    @OneToMany(mappedBy = "barang", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    List<GudangBarang> listGudangBarang;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "permintaanpengiriman_barang", joinColumns = @JoinColumn(name = "sku"), inverseJoinColumns = @JoinColumn(name = "id_permintaan_barang"))
-    List<PermintaanPengiriman> listPermintaanPengiriman;
+    @OneToMany(mappedBy = "barang", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    List<PermintaanPengirimanBarang> listPermintaanPengiriman;
 }

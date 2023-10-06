@@ -6,14 +6,13 @@ import org.springframework.stereotype.Service;
 import apap.ti.silogistik2106637555.repository.PermintaanPengirimanDb;
 
 @Service
-public class PermintaanPengirimanServiceImpl implements PermintaanPengirimanService {
-
+public class PermintaanPengirimanServiceImpl implements PermintaanPengirimanService{
+    
     @Autowired
     PermintaanPengirimanDb permintaanPengirimanDb;
 
     @Override
-    public long jumlahPermintaanPengiriman() {
+    public long countPermintaanPengirimanOnDB() {
         return permintaanPengirimanDb.count();
-    }
-    
+    }    
 }

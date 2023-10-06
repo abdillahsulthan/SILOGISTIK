@@ -7,5 +7,5 @@ import apap.ti.silogistik2106637555.model.Barang;
 
 @Mapper(componentModel = "spring")
 public interface BarangMapper {
-    Barang createBarangRequestDTOToBarang(CreateBarangRequestDTO createBarangRequestDTO);
+    Barang createBarangRequestDTOToBarang(CreateBarangRequestDTO barangRequestDTO);
 }

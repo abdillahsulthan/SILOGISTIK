@@ -29,6 +29,6 @@ public class Gudang {
     @Column(name = "alamat_gudang", nullable = false)
     private String alamatGudang; 
     
-    @ManyToMany(mappedBy = "listGudang", fetch = FetchType.LAZY)
-    List<Barang> listBarang;
+    @OneToMany(mappedBy = "gudang", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    List<GudangBarang> listGudangBarang;
 }
