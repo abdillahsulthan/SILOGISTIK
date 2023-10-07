@@ -35,7 +35,9 @@
                         <tbody>
                             <tr th:each="gudangBarang, iterationStatus : ${listAvailableBarangFromGudang}">
                                 <th scope="row" th:text="${iterationStatus.count}"></th>
-                                <td th:text="${gudangBarang.barang.sku}"></td>
+                                <td>
+                                    <a th:href="@{/barang/{idBarang}(idBarang=${gudangBarang.barang.sku})}" th:text="${gudangBarang.barang.sku}"></a>
+                                </td>
                                 <td th:text="${gudangBarang.barang.merk}"></td>
                                 <td th:text="${gudangBarang.stok}"></td>
                                 <td th:text="${gudangBarang.barang.hargaBarang}"></td>

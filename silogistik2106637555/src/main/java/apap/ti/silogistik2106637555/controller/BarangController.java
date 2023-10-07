@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import apap.ti.silogistik2106637555.dto.BarangMapper;
@@ -65,5 +66,15 @@ public class BarangController {
         model.addAttribute("sku", barang.getSku());
         return "success-create-barang";
     }
+
+    @GetMapping("barang/{idBarang}")
+    public String detailBuku(@PathVariable("idBarang") String idBarang, Model model) {
+        //Mendapatkan buku melalui kodeBuku
+        var barang = barangService.getBarangBySku(idBarang);
+        var readBarangDTO = barangMapper.barangToReadBarangResponseDTO(barang);
+        model.addAttribute("barang", readBarangDTO);
+        model.addAttribute("listGudangBarang", readBarangDTO.getListGudangBarang());
+        return "view-barang";
+    }   
 
 }

@@ -33,7 +33,7 @@
                 <td th:text="${barang.totalStok}"></td>
                 <td th:text="'Rp' +${barang.hargaBarang}"></td>
                 <td>
-                    <a href="#" class="btn btn-secondary btn-sm active" role="button" aria-pressed="true">Detail</a>
+                    <a th:href="@{/barang/{idBarang}(idBarang=${barang.sku})}" class="btn btn-secondary btn-sm active" role="button" aria-pressed="true">Detail</a>
                 </td>
               </tr>
             </tbody>
