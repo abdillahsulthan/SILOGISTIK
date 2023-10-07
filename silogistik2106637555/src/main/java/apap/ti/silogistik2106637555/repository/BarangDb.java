@@ -10,4 +10,5 @@ import java.util.List;
 @Repository
 public interface BarangDb extends JpaRepository<Barang, Long>{
     List<Barang> findByTipeBarang(int tipeBarang);
+    Barang findBarangBySku(String sku);
 }

@@ -17,7 +17,7 @@ public class GudangBarang {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private long idGudangBarang;
 
     @NotNull
     @ManyToOne

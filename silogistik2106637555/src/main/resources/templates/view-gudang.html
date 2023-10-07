@@ -15,7 +15,7 @@
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
                 <div class="fs-2 fw-bold">Detail Gudang</div>
-                <a href="#" class="btn btn-primary active" role="button" aria-pressed="true">+ Restock Barang</a>
+                <a th:href="@{/gudang/{idGudang}/restock-barang(idGudang=${gudangDTO.idGudang})}" class="btn btn-primary active" role="button" aria-pressed="true">+ Restock Barang</a>
             </div>
             <div class="card-body">
                 <p class="card-text text-start fs-5" th:text="'Nama Gudang : ' + ${gudangDTO.namaGudang}"></p>

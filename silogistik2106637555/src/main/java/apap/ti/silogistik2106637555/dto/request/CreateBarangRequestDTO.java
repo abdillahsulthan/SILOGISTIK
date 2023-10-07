@@ -1,7 +1,5 @@
 package apap.ti.silogistik2106637555.dto.request;
 
-import java.math.BigInteger;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

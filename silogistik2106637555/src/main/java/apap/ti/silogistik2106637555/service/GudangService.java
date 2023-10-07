@@ -11,4 +11,5 @@ public interface GudangService {
     List<Gudang> getAllGudang();
     Gudang getGudangById(long idGudang);
     List<GudangBarang> getAvailableBarangFromGudang(Gudang gudang);
+    Gudang restockBarangToGudang(Gudang gudangFromDTO);
 }

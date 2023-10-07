@@ -11,7 +11,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import apap.ti.silogistik2106637555.dto.GudangMapper;
-import apap.ti.silogistik2106637555.model.Barang;
+import apap.ti.silogistik2106637555.dto.request.RestockGudangRequestDTO;
+import apap.ti.silogistik2106637555.model.GudangBarang;
 import apap.ti.silogistik2106637555.service.BarangService;
 import apap.ti.silogistik2106637555.service.GudangService;
 
@@ -45,14 +46,46 @@ public class GudangController {
         return "view-gudang";
     }
 
-    // @GetMapping("gudang/{idGudang}/restock-barang")
-    // public String restockGudang(@PathVariable("idGudang") long idGudang, Model model) {
-    //     var gudang = gudangService.getGudangById(idGudang);
-    //     var gudangDTO = gudangMapper.gudangToReadGudangResponseDTO(gudang);
+    @GetMapping("gudang/{idGudang}/restock-barang")
+    public String restockGudang(@PathVariable("idGudang") long idGudang, Model model) {
+        var gudang = gudangService.getGudangById(idGudang);
+        var restockGudangDTO = gudangMapper.gudangToRestockGudangRequestDTO(gudang);
+        model.addAttribute("restockGudangDTO", restockGudangDTO);
+        model.addAttribute("listBarangExisting", barangService.getAllBarang());
+        return "restock-gudang";
+    }
 
-    //     model.addAttribute("gudangDTO", gudangDTO);
-    //     model.addAttribute("listGudangBarang", gudangDTO.getListGudangBarang());
-    //     model.addAttribute("listBarangExisting", barangService.getAllBarang());
-    //     return "restock-gudang";
-    // }
+    @PostMapping(value = "gudang/{idGudang}/restock-barang", params = {"addRow"})
+    public String addRowGudangBarangUpdate(@PathVariable("idGudang") long idGudang, @ModelAttribute RestockGudangRequestDTO restockGudangDTO, Model model) {
+        var gudang = gudangService.getGudangById(idGudang);
+        restockGudangDTO.setNamaGudang(gudang.getNamaGudang());
+        restockGudangDTO.setAlamatGudang(gudang.getAlamatGudang());
+
+        if (restockGudangDTO.getListGudangBarang() == null || restockGudangDTO.getListGudangBarang().size() == 0) {
+            restockGudangDTO.setListGudangBarang(new ArrayList<>());
+        }
+        restockGudangDTO.getListGudangBarang().add(new GudangBarang());
+        model.addAttribute("restockGudangDTO", restockGudangDTO);
+        model.addAttribute("listBarangExisting", barangService.getAllBarang());
+        return "restock-gudang";
+    }
+
+    @PostMapping("gudang/{idGudang}/restock-barang")
+    public String restockGudangSuccess(@PathVariable("idGudang") long idGudang, @ModelAttribute RestockGudangRequestDTO restockGudangDTO, Model model) {
+        var gudang = gudangService.getGudangById(idGudang);
+        restockGudangDTO.setNamaGudang(gudang.getNamaGudang());
+        restockGudangDTO.setAlamatGudang(gudang.getAlamatGudang());
+
+        var gudangFromDTO = gudangMapper.restockGudangRequestDTOToGudang(restockGudangDTO);
+        
+        for (GudangBarang gudangBarang : gudangFromDTO.getListGudangBarang()) {
+            String sku = gudangBarang.getBarang().getSku();
+            gudangBarang.setGudang(gudangService.getGudangById(idGudang));
+            gudangBarang.setBarang(barangService.getBarangBySku(sku));
+        }
+
+        var gudangFix = gudangService.restockBarangToGudang(gudangFromDTO);
+        model.addAttribute("namaGudang", gudangFix.getNamaGudang());
+        return "success-restock-gudang";
+    }
 }

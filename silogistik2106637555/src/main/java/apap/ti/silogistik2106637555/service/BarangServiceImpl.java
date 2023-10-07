@@ -48,4 +48,9 @@ public class BarangServiceImpl implements BarangService{
     public List<Barang> getAllBarang() {
         return barangDb.findAll();
     }
+
+    @Override
+    public Barang getBarangBySku(String sku) {
+        return barangDb.findBarangBySku(sku);
+    }
 }

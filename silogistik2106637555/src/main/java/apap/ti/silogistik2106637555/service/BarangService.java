@@ -9,4 +9,5 @@ public interface BarangService {
     void saveBarang(Barang barang);
     String generateSKU(Barang barang);
     List<Barang> getAllBarang();
+    Barang getBarangBySku(String sku);
 }

@@ -17,9 +17,12 @@
                 <div class="fs-2 fw-bold">Restock Gudang</div>
             </div>
             <div class="card-body">
-                <p class="card-text text-start fs-5" th:text="'Nama Gudang : ' + ${gudangDTO.namaGudang}"></p>
-                <p class="card-text text-start fs-5" th:text="'Alamat Gudang : ' + ${gudangDTO.alamatGudang}"></p>
-                <form th:action="@{/gudang/{id}/restock-barang(id=${gudangDTO.idGudang})}" th:object="${gudangDTO}" method="POST">
+                <p class="card-text text-start fs-5" th:text="'Nama Gudang : ' + ${restockGudangDTO.namaGudang}"></p>
+                <p class="card-text text-start fs-5" th:text="'Alamat Gudang : ' + ${restockGudangDTO.alamatGudang}"></p>
+                <form th:action="@{/gudang/{idGudang}/restock-barang(idGudang=${restockGudangDTO.idGudang})}" th:object="${restockGudangDTO}" method="POST">
+                    <div class="d-flex justify-content-end mb-3">
+                      <button class="btn btn-primary" type="submit" name="addRow" style="text-align:right">+ Tambah Barang</button>
+                    </div>
                     <table class="table table-bordered">
                         <thead class="bg-dark text-light">
                             <tr>
@@ -29,23 +32,22 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr th:each="barang, iterationStatus : ${listBarangGudang}">
+                            <tr th:each="gudangBarang, iterationStatus : *{listGudangBarang}">
                                 <td th:text="${iterationStatus.count}"></td>
-                                <td>
-                                    <select class="form-control" th:field="*{listBarangGudang[__${iterationStatus.index}__]}">
-                                        <option th:each="option : ${listBarang}"
-                                                th:value="${option.idBarang}"
-                                                th:text="${option.merk}">
-                                        </option>
+                                <td class="d-flex gap-2">
+                                    <select th:field="*{listGudangBarang[__${iterationStatus.index}__].barang.sku}" class="form-select form-control gap-2">
+                                        <div th:each="barangExisting : ${listBarangExisting}">
+                                            <option th:value="${barangExisting.sku}" th:text="${barangExisting.merk}" ></option>
+                                        </div>
                                     </select>
                                 </td>
                                 <td>
-                                    <input class="form-control" type="number" th:field="*{listBarangGudang[__${iterationStatus.index}__].totalStok}" />
+                                    <input class="form-control" type="number" th:field="*{listGudangBarang[__${iterationStatus.index}__].stok}" />
                                 </td>
                             </tr>
                         </tbody>
-                    </table>
-                    <button class="btn btn-primary" type="submit" name="addRow">Tambah Barang</button>
+                      </table>
+                    <a href="/" class="btn btn-danger" type="submit">Batal</a>
                     <button class="btn btn-primary" type="submit">Simpan</button>
                 </form>
             </div>                    
