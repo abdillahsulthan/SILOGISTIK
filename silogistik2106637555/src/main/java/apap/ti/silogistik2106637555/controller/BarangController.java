@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import apap.ti.silogistik2106637555.dto.BarangMapper;
 import apap.ti.silogistik2106637555.dto.request.CreateBarangRequestDTO;
+import apap.ti.silogistik2106637555.dto.request.UpdateBarangRequestDTO;
 import apap.ti.silogistik2106637555.model.Barang;
 import apap.ti.silogistik2106637555.service.BarangService;
 import apap.ti.silogistik2106637555.service.GudangService;
@@ -75,6 +76,22 @@ public class BarangController {
         model.addAttribute("barang", readBarangDTO);
         model.addAttribute("listGudangBarang", readBarangDTO.getListGudangBarang());
         return "view-barang";
-    }   
+    }     
+    
+    @GetMapping("barang/{idBarang}/ubah")
+    public String formUpdateBarang(@PathVariable("idBarang") String idBarang, Model model) {
+        var barang = barangService.getBarangBySku(idBarang);
+        var barangDTO = barangMapper.barangToUpdateBarangRequestDTO(barang);
+        model.addAttribute("barangDTO", barangDTO);
+        return "form-update-barang";
+    }
+
+    @PostMapping("barang/{idBarang}/ubah")
+    public String updateBarang(@PathVariable("idBarang") String idBarang, @ModelAttribute UpdateBarangRequestDTO barangDTO, Model model) {
+        var barangFromDTO = barangMapper.updateBarangRequestDTOToBarang(barangDTO);
+        var barang = barangService.updateBarang(barangFromDTO);
+        model.addAttribute("sku", barang.getSku());
+        return "success-update-barang";
+    }
 
 }

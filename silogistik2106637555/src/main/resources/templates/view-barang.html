@@ -25,6 +25,7 @@
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
                 <div class="fs-2 fw-bold">Detail Barang</div>
+                <a th:href="@{/barang/{idBarang}/ubah(idBarang=${barang.sku})}" class="btn btn-primary active" role="button" aria-pressed="true">Ubah Barang</a>
             </div>
             <div class="card-body">
                 <p class="card-text text-start fs-5">

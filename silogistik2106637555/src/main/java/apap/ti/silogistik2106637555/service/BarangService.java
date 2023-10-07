@@ -10,4 +10,5 @@ public interface BarangService {
     String generateSKU(Barang barang);
     List<Barang> getAllBarang();
     Barang getBarangBySku(String sku);
+    Barang updateBarang(Barang barangFromDTO);
 }

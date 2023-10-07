@@ -9,18 +9,20 @@
 </head>
 
 <body>
-<div class="container">
-  <div class="card m-4 p-4">
-    <div class="card-body">
-      <div class="text-center">
-        <h2 th:text="'Barang dengan SKU ' + ${sku} + ' berhasil ditambahkan pada sistem.'"></h2>
-      </div>
-      <div class="text-center m-3">
-        <a type="button" class="btn btn-md btn-primary" href="/">Kembali ke beranda</a>
+  <nav th:replace="~{fragments/navbar :: navbar}"></nav>
+  <div class="container">
+    <div class="card m-4 p-4">
+      <div class="card-body">
+        <div class="text-center">
+          <img width="140" height="140" src="https://img.icons8.com/papercut/140/checked.png" alt="checked"/>
+          <h2 th:text="'Barang dengan SKU ' + ${sku} + ' berhasil ditambahkan pada sistem.'"></h2>
+        </div>
+        <div class="text-center m-3">
+          <a type="button" class="btn btn-md btn-primary" href="/">Kembali ke beranda</a>
+        </div>
       </div>
     </div>
   </div>
-</div>
 </body>
 
 </html>

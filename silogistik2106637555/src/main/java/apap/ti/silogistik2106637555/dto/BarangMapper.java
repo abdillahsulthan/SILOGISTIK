@@ -5,12 +5,17 @@ import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
 
 import apap.ti.silogistik2106637555.dto.request.CreateBarangRequestDTO;
+import apap.ti.silogistik2106637555.dto.request.UpdateBarangRequestDTO;
 import apap.ti.silogistik2106637555.dto.response.ReadBarangResponseDTO;
 import apap.ti.silogistik2106637555.model.Barang;
 
 @Mapper(componentModel = "spring")
 public interface BarangMapper {
     Barang createBarangRequestDTOToBarang(CreateBarangRequestDTO barangRequestDTO);
+
+    UpdateBarangRequestDTO barangToUpdateBarangRequestDTO(Barang barang);
+
+    Barang updateBarangRequestDTOToBarang(UpdateBarangRequestDTO updateBarangRequestDTO);
 
     ReadBarangResponseDTO barangToReadBarangResponseDTO(Barang barang);
     @AfterMapping
