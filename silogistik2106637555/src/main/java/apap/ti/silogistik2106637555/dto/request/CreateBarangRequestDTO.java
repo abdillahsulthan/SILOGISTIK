@@ -10,11 +10,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class CreateBarangRequestDTO {
-    // @NotBlank(message = "Merk Barang tidak boleh kosong")
+    @NotBlank(message = "Merk Barang tidak boleh kosong")
     private String merk;
 
     private int tipeBarang;
 
-    // @Min(value = 0, message = "Harga Barang tidak boleh kurang dari 0")
+    @Min(value = 0, message = "Harga Barang tidak boleh kurang dari 0")
     private long hargaBarang;
 }

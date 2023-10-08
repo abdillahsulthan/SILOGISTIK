@@ -1,10 +1,13 @@
 package apap.ti.silogistik2106637555.controller;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,6 +19,7 @@ import apap.ti.silogistik2106637555.model.PermintaanPengirimanBarang;
 import apap.ti.silogistik2106637555.service.BarangService;
 import apap.ti.silogistik2106637555.service.KaryawanService;
 import apap.ti.silogistik2106637555.service.PermintaanPengirimanService;
+import jakarta.validation.Valid;
 
 @Controller
 public class PermintaanPengirimanController {
@@ -60,7 +64,21 @@ public class PermintaanPengirimanController {
     }
 
     @PostMapping("permintaan-pengiriman/tambah")
-    public String addPermintaanPengiriman(@ModelAttribute CreatePermintaanPengirimanRequestDTO createPermintaanPengirimanRequestDTO, Model model) {
+    public String addPermintaanPengiriman(@Valid @ModelAttribute CreatePermintaanPengirimanRequestDTO createPermintaanPengirimanRequestDTO, BindingResult bindingResult, Model model) {
+        if(bindingResult.hasErrors()) {
+            List<String> errors = bindingResult.getAllErrors().stream()
+                    .map(error -> {
+                        return error.getDefaultMessage();
+                    })
+                    .collect(Collectors.toList());
+
+            model.addAttribute("errors", errors);
+            return "error-viewall";
+        }
+        if (createPermintaanPengirimanRequestDTO.getListPermintaanPengirimanBarang() == null || createPermintaanPengirimanRequestDTO.getListPermintaanPengirimanBarang().size() == 0) {
+            model.addAttribute("error", "Barang harus diisi");
+            return "error-view";
+        }
         var permintaanPengirimanFromDTO = permintaanPengirimanMapper.createPermintaanPengirimanRequestDTOToPermintaanPengiriman(createPermintaanPengirimanRequestDTO);
         var permintaanPengirimanBarang = permintaanPengirimanService.addPermintaanPengiriman(permintaanPengirimanFromDTO);
         model.addAttribute("nomorPengiriman", permintaanPengirimanBarang.getNomorPengiriman());

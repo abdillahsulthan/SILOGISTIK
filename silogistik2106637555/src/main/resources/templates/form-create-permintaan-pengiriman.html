@@ -26,14 +26,14 @@
             </div>
             <div class="col-md-6">
               <label>Tanggal Pengiriman:</label>
-              <input type="date" class="form-control" th:field="*{tanggalPengiriman}">
+              <input required type="date" class="form-control" th:field="*{tanggalPengiriman}">
             </div>
           </div>
 
           <div class="row mb-3">
             <div class="col-md-6">
               <label>Nama Penerima:</label>
-              <input type="text" class="form-control" placeholder="Nama Penerima" th:field="*{namaPenerima}">
+              <input required type="text" class="form-control" placeholder="Nama Penerima" th:field="*{namaPenerima}">
             </div>
             <div class="col-md-6">
               <label>Jenis Layanan:</label>
@@ -49,11 +49,11 @@
           <div class="row mb-3">
             <div class="col-md-6">
               <label>Alamat Penerima:</label>
-              <input type="text" class="form-control" placeholder="Alamat Penerima" th:field="*{alamatPenerima}">
+              <input required type="text" class="form-control" placeholder="Alamat Penerima" th:field="*{alamatPenerima}">
             </div>
             <div class="col-md-6">
               <label>Biaya Pengiriman:</label>
-              <input type="number" class="form-control" placeholder="Biaya Pengiriman" th:field="*{biayaPengiriman}">
+              <input required type="number" class="form-control" placeholder="Biaya Pengiriman" th:field="*{biayaPengiriman}">
             </div>
           </div>
           

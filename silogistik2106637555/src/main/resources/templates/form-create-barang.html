@@ -11,10 +11,10 @@
 <body>
 <nav th:replace="~{fragments/navbar :: navbar}"></nav>
   <div class="container">
-    <div class="card m-4 p-4">
-        <div class="card-header text-center fw-bold">
-            Tambah Barang
-        </div>
+    <div class="card mt-5">
+      <div class="card-header d-flex justify-content-center align-items-center">
+        <div class="fs-2 fw-bold">Tambah Barang</div>
+      </div>
       <div class="card-body">
         <div class="justify-content-center">
           <form th:action="@{/barang/tambah}" th:object="${barangDTO}" method="POST">

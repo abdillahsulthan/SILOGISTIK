@@ -2,10 +2,12 @@ package apap.ti.silogistik2106637555.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,10 +16,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import apap.ti.silogistik2106637555.dto.GudangMapper;
 import apap.ti.silogistik2106637555.dto.request.RestockGudangRequestDTO;
-import apap.ti.silogistik2106637555.model.Gudang;
 import apap.ti.silogistik2106637555.model.GudangBarang;
 import apap.ti.silogistik2106637555.service.BarangService;
 import apap.ti.silogistik2106637555.service.GudangService;
+import jakarta.validation.Valid;
 
 @Controller
 public class GudangController {
@@ -59,7 +61,7 @@ public class GudangController {
     }
 
     @PostMapping(value = "gudang/{idGudang}/restock-barang", params = {"addRow"})
-    public String addRowGudangBarangUpdate(@PathVariable("idGudang") long idGudang, @ModelAttribute RestockGudangRequestDTO restockGudangDTO, Model model) {
+    public String addRowGudangBarang(@PathVariable("idGudang") long idGudang, @ModelAttribute RestockGudangRequestDTO restockGudangDTO, Model model) {
         var gudang = gudangService.getGudangById(idGudang);
         restockGudangDTO.setNamaGudang(gudang.getNamaGudang());
         restockGudangDTO.setAlamatGudang(gudang.getAlamatGudang());
@@ -74,7 +76,21 @@ public class GudangController {
     }
 
     @PostMapping("gudang/{idGudang}/restock-barang")
-    public String restockGudangSuccess(@PathVariable("idGudang") long idGudang, @ModelAttribute RestockGudangRequestDTO restockGudangDTO, Model model) {
+    public String restockGudangSuccess(@PathVariable("idGudang") long idGudang, @Valid @ModelAttribute RestockGudangRequestDTO restockGudangDTO, BindingResult bindingResult, Model model) {
+        if(bindingResult.hasErrors()) {
+            List<String> errors = bindingResult.getAllErrors().stream()
+                    .map(error -> {
+                        return error.getDefaultMessage();
+                    })
+                    .collect(Collectors.toList());
+
+            model.addAttribute("errors", errors);
+            return "error-viewall";
+        }
+        if (restockGudangDTO.getListGudangBarang() == null || restockGudangDTO.getListGudangBarang().size() == 0) {
+            model.addAttribute("error", "Barang harus diisi");
+            return "error-view";
+        }
         var gudang = gudangService.getGudangById(idGudang);
         restockGudangDTO.setNamaGudang(gudang.getNamaGudang());
         restockGudangDTO.setAlamatGudang(gudang.getAlamatGudang());

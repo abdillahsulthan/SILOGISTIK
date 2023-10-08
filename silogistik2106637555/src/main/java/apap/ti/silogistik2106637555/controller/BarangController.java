@@ -1,10 +1,12 @@
 package apap.ti.silogistik2106637555.controller;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -62,7 +64,17 @@ public class BarangController {
     }
 
     @PostMapping("barang/tambah")
-    public String addBarang(@ModelAttribute CreateBarangRequestDTO barangDTO, Model model) {
+    public String addBarang(@Valid @ModelAttribute CreateBarangRequestDTO barangDTO, BindingResult bindingResult, Model model) {
+        if(bindingResult.hasErrors()) {
+            List<String> errors = bindingResult.getAllErrors().stream()
+                    .map(error -> {
+                        return error.getDefaultMessage();
+                    })
+                    .collect(Collectors.toList());
+
+            model.addAttribute("errors", errors);
+            return "error-viewall";
+        }
         var barang = barangMapper.createBarangRequestDTOToBarang(barangDTO);
         barangService.saveBarang(barang);
         model.addAttribute("sku", barang.getSku());
@@ -87,7 +99,17 @@ public class BarangController {
     }
 
     @PostMapping("barang/{idBarang}/ubah")
-    public String updateBarang(@PathVariable("idBarang") String idBarang, @ModelAttribute UpdateBarangRequestDTO barangDTO, Model model) {
+    public String updateBarang(@PathVariable("idBarang") String idBarang, @Valid @ModelAttribute UpdateBarangRequestDTO barangDTO, BindingResult bindingResult, Model model) {
+        if(bindingResult.hasErrors()) {
+            List<String> errors = bindingResult.getAllErrors().stream()
+                    .map(error -> {
+                        return error.getDefaultMessage();
+                    })
+                    .collect(Collectors.toList());
+
+            model.addAttribute("errors", errors);
+            return "error-viewall";
+        }
         var barangFromDTO = barangMapper.updateBarangRequestDTOToBarang(barangDTO);
         var barang = barangService.updateBarang(barangFromDTO);
         model.addAttribute("sku", barang.getSku());
