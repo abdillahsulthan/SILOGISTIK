@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <object th:insert="~{fragments/common :: js}" th:remove="tag"></object>
+    <object th:insert="~{fragments/common :: css}" th:remove="tag"></object>
+    <title>Detail Permintaan Pengiriman</title>
+    <style>
+        .label-column {
+            width: 300px;
+            display: inline-block;
+            text-align: left;
+        }
+        .value-column {
+            margin-left: 100px;
+        }
+    </style>
+</head>
+
+<body>
+    <nav th:replace="~{fragments/navbar :: navbar}"></nav>
+    <div class="container text-center mt-5">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <div class="fs-2 fw-bold">Detail Permintaan Pengiriman</div>
+                <a href="#" class="btn btn-danger active" role="button" aria-pressed="true">Cancel Permintaan</a>
+            </div>
+            <div class="card-body">
+                <p class="card-text text-start fs-5">
+                    <span class="label-column">No. Permintaan Pengiriman</span>
+                    <span class="value-column" th:text="': ' + ${permintaanPengirimanDTO.nomorPengiriman}"></span>
+                </p>
+                <p class="card-text text-start fs-5">
+                    <span class="label-column">Waktu Permintaan</span>
+                    <span class="value-column" th:text="': ' + ${permintaanPengirimanDTO.waktuPermintaan}"></span>
+                </p>
+                <p class="card-text text-start fs-5">
+                    <span class="label-column">Karyawan Bertugas</span>
+                    <span class="value-column" th:text="': ' + ${permintaanPengirimanDTO.karyawan.namaKaryawan}"></span>
+                </p>
+                <p class="card-text text-start fs-5">
+                    <span class="label-column">Waktu Pengiriman</span>
+                    <span class="value-column" th:text="': ' + ${permintaanPengirimanDTO.tanggalPengiriman}"></span>
+                </p>
+                <p class="card-text text-start fs-5">
+                    <span class="label-column">Nama Penerima</span>
+                    <span class="value-column" th:text="': ' + ${permintaanPengirimanDTO.namaPenerima}"></span>
+                </p>
+                <p class="card-text text-start fs-5">
+                    <span class="label-column">Alamat Penerima</span>
+                    <span class="value-column" th:text="': ' + ${permintaanPengirimanDTO.alamatPenerima}"></span>
+                </p>
+                <p class="card-text text-start fs-5">
+                    <span class="label-column">Jenis Layanan</span>
+                    <span class="value-column" th:text="': ' + ${permintaanPengirimanDTO.jenisLayanan}"></span>
+                </p>
+                <p class="card-text text-start fs-5">
+                    <span class="label-column">Biaya Pengiriman</span>
+                    <span class="value-column" th:text="': ' + ${permintaanPengirimanDTO.biayaPengiriman}"></span>
+                </p>
+                <p class="card-text text-start fw-bold fs-4 mt-4">Daftar barang dipesan</p>
+                <div th:if="${listPermintaanPengirimanBarang != null and not #lists.isEmpty(listPermintaanPengirimanBarang)}">
+                    <table class="table table-bordered mt-3">
+                        <thead class="bg-dark text-light">
+                            <tr>
+                                <th>#</th>
+                                <th>SKU</th>
+                                <th>Merk</th>
+                                <th>Kuantitas Pesanan</th>
+                                <th>Total Harga</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="permintaanPengirimanBarang, iterationStatus : ${listPermintaanPengirimanBarang}">
+                                <th scope="row" th:text="${iterationStatus.count}"></th>
+                                <td>
+                                    <a th:href="@{/barang/{idBarang}(idBarang=${permintaanPengirimanBarang.barang.sku})}" th:text="${permintaanPengirimanBarang.barang.sku}"></a>
+                                </td>
+                                <td th:text="${permintaanPengirimanBarang.barang.merk}"></td>
+                                <td th:text="${permintaanPengirimanBarang.kuantitasPengiriman}"></td>
+                                <td th:text="'Rp' + ${permintaanPengirimanBarang.kuantitasPengiriman * permintaanPengirimanBarang.barang.hargaBarang}"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div th:unless="${listPermintaanPengirimanBarang != null and not #lists.isEmpty(listPermintaanPengirimanBarang)}">
+                    <p class="card-text text-start fs-5 text-danger">Barang belum tersedia pada gudang.</p>
+                </div>
+                <a th:href="@{/permintaan-pengiriman}" class="btn btn-secondary active mt-3" role="button" aria-pressed="true">Kembali</a>
+            </div>                    
+        </div>
+    </div>
+</body>
+
+</html>

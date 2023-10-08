@@ -40,6 +40,7 @@ public class PermintaanPengiriman {
 
     @NotNull
     @Column(name = "tanggal_pengiriman", nullable = false)
+    @Temporal(TemporalType.DATE)
     private Date tanggalPengiriman;
 
     @NotNull
@@ -52,6 +53,7 @@ public class PermintaanPengiriman {
 
     @NotNull
     @Column(name = "waktu_permintaan", nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date waktuPermintaan;
 
     @ManyToOne(fetch = FetchType.EAGER)

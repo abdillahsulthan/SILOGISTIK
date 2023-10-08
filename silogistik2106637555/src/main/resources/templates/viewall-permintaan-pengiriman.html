@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <object th:insert="~{fragments/common :: js}" th:remove="tag"></object>
+    <object th:insert="~{fragments/common :: css}" th:remove="tag"></object>
+    <title>Daftar Permintaan Pengiriman</title>
+</head>
+
+<body>
+    <nav th:replace="~{fragments/navbar :: navbar}"></nav>
+    <div class="container text-center mt-5">
+        <h1 class="fw-bold">Daftar Permintaan Pengiriman</h1>
+        <a th:href="@{/permintaan-pengiriman/tambah}" class="btn btn-primary btn-lg active mt-3" role="button" aria-pressed="true">+ Tambah Permintaan Pengiriman</a>
+        <table class="table table-bordered mt-5">
+            <thead class="bg-dark text-light">
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Waktu Permintaan</th>
+                <th scope="col">Nomor Pengiriman</th>
+                <th scope="col">Nama Penerima</th>
+                <th scope="col">Alamat Penerima</th>
+                <th scope="col">Tanggal Pengiriman</th>
+                <th scope="col">Detail</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr th:each="permintaanPengiriman, iterationStatus : ${listPermintaanPengiriman}">
+                <th scope="row" th:text="${iterationStatus.count}"></th>
+                <td th:text="${#strings.substring(permintaanPengiriman.waktuPermintaan, 0, 10)} + ', ' + ${#strings.substring(permintaanPengiriman.waktuPermintaan, 11, 16)}"></td>
+                <td th:text="${permintaanPengiriman.nomorPengiriman}"></td>
+                <td th:text="${permintaanPengiriman.namaPenerima}"></td>
+                <td th:text="${permintaanPengiriman.alamatPenerima}"></td>
+                <td th:text="${permintaanPengiriman.tanggalPengiriman}"></td>
+                <td>
+                    <a th:href="@{/permintaan-pengiriman/{idPermintaanPengiriman}(idPermintaanPengiriman=${permintaanPengiriman.nomorPengiriman})}" class="btn btn-secondary btn-sm active" role="button" aria-pressed="true">Detail</a>
+                </td>
+              </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+
+</html>

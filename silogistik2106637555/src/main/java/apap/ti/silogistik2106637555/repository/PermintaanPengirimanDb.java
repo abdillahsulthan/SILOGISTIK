@@ -7,5 +7,5 @@ import apap.ti.silogistik2106637555.model.PermintaanPengiriman;
 
 @Repository
 public interface PermintaanPengirimanDb extends JpaRepository<PermintaanPengiriman, Long>{
-    
+    PermintaanPengiriman findPermintaanPengirimanByNomorPengiriman(String nomorPengiriman);
 }
