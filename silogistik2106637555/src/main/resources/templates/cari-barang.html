@@ -15,7 +15,7 @@
 </head>
 
 <body>
-    <nav th:replace="~{fragments/navbar :: navbar}"></nav>
+    <nav th:replace="~{fragments/navbar :: navbar('gudang')}"></nav>
     <div class="container text-center mt-5">
         <div class="fs-2 text-center fw-bold">Cari Barang</div>
         <form th:action="@{/gudang/cari-barang}" method="GET" class="mt-3 d-flex justify-content-center">

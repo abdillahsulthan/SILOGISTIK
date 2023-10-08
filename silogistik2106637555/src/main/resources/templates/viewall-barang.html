@@ -10,7 +10,7 @@
 </head>
 
 <body>
-    <nav th:replace="~{fragments/navbar :: navbar}"></nav>
+    <nav th:replace="~{fragments/navbar :: navbar('barang')}"></nav>
     <div class="container text-center mt-5">
         <h1 class="fw-bold">Daftar Barang</h1>
         <a th:href="@{/barang/tambah}" class="btn btn-primary btn-lg active mt-3" role="button" aria-pressed="true">+ Tambah Barang</a>

@@ -10,7 +10,7 @@
 </head>
 
 <body>
-    <nav th:replace="~{fragments/navbar :: navbar}"></nav>
+    <nav th:replace="~{fragments/navbar :: navbar('permintaaanpengiriman')}"></nav>
     <div class="container text-center mt-5">
         <h1 class="fw-bold">Daftar Permintaan Pengiriman</h1>
         <a th:href="@{/permintaan-pengiriman/tambah}" class="btn btn-primary btn-lg active mt-3" role="button" aria-pressed="true">+ Tambah Permintaan Pengiriman</a>
