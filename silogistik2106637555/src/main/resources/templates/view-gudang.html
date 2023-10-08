@@ -40,7 +40,7 @@
                                 </td>
                                 <td th:text="${gudangBarang.barang.merk}"></td>
                                 <td th:text="${gudangBarang.stok}"></td>
-                                <td th:text="${gudangBarang.barang.hargaBarang}"></td>
+                                <td th:text="'Rp' + ${gudangBarang.barang.hargaBarang}"></td>
                             </tr>
                         </tbody>
                     </table>

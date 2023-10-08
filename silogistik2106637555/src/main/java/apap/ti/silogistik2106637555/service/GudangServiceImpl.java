@@ -118,4 +118,13 @@ public class GudangServiceImpl implements GudangService{
         }
         return gudang;
     }
+
+    @Override
+    public List<GudangBarang> filteredGudang(String sku) {
+        List<GudangBarang> filteredGudangBarang = gudangBarangDb.findByBarang(barangDb.findBarangBySku(sku));
+        if(filteredGudangBarang == null || filteredGudangBarang.size() == 0) {
+            return null;
+        }
+        return filteredGudangBarang;
+    }
 }

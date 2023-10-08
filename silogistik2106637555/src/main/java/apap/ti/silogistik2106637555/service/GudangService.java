@@ -12,4 +12,5 @@ public interface GudangService {
     Gudang getGudangById(long idGudang);
     List<GudangBarang> getAvailableBarangFromGudang(Gudang gudang);
     Gudang restockBarangToGudang(Gudang gudangFromDTO);
+    List<GudangBarang> filteredGudang(String sku);
 }

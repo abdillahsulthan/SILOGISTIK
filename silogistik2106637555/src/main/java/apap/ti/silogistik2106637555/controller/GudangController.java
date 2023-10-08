@@ -1,6 +1,7 @@
 package apap.ti.silogistik2106637555.controller;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -9,9 +10,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import apap.ti.silogistik2106637555.dto.GudangMapper;
 import apap.ti.silogistik2106637555.dto.request.RestockGudangRequestDTO;
+import apap.ti.silogistik2106637555.model.Gudang;
 import apap.ti.silogistik2106637555.model.GudangBarang;
 import apap.ti.silogistik2106637555.service.BarangService;
 import apap.ti.silogistik2106637555.service.GudangService;
@@ -87,5 +90,13 @@ public class GudangController {
         var gudangFix = gudangService.restockBarangToGudang(gudangFromDTO);
         model.addAttribute("namaGudang", gudangFix.getNamaGudang());
         return "success-restock-gudang";
+    }
+
+    @GetMapping("gudang/cari-barang")
+    public String searchBarangFromGudang(@RequestParam(value = "sku", required = false) String sku, Model model) {
+        List<GudangBarang> listGudangBarangFiltered = gudangService.filteredGudang(sku);
+        model.addAttribute("listBarangExisting", barangService.getAllBarang());
+        model.addAttribute("listGudangBarangFiltered", listGudangBarangFiltered);
+        return "cari-barang";
     }
 }

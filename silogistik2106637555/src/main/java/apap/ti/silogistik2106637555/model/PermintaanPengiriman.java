@@ -23,7 +23,7 @@ public class PermintaanPengiriman {
     private long idPermintaanPengiriman;
 
     @NotNull
-    @Column(name = "nomor_pengiriman", nullable = false)
+    @Column(name = "nomor_pengiriman", unique = true, nullable = false)
     private String nomorPengiriman;
 
     @NotNull

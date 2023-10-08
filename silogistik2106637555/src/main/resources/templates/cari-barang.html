@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <object th:insert="~{fragments/common :: js}" th:remove="tag"></object>
+    <object th:insert="~{fragments/common :: css}" th:remove="tag"></object>
+    <title>Cari Barang</title>
+    <style>
+        select.custom-select {
+            width: 500px;
+        }
+    </style>
+</head>
+
+<body>
+    <nav th:replace="~{fragments/navbar :: navbar}"></nav>
+    <div class="container text-center mt-5">
+        <div class="fs-2 text-center fw-bold">Cari Barang</div>
+        <form th:action="@{/gudang/cari-barang}" method="GET" class="mt-3 d-flex justify-content-center">
+            <div class="col-5">
+                <select class="form-select custom-select" name="sku">
+                    <div th:each="barangExisting : ${listBarangExisting}">
+                        <option th:value="${barangExisting.sku}" th:text="${barangExisting.merk}"></option>
+                    </div>
+                </select>
+            </div>
+            <div class="col-1">
+                <button class="btn btn-primary w-100" type="submit">Cari</button>
+            </div>
+        </form>
+        <div th:if="${listGudangBarangFiltered != null and not #lists.isEmpty(listGudangBarangFiltered)}">
+            <table class="table table-bordered mt-3">
+                <thead class="bg-dark text-light">
+                    <tr>
+                        <th>#</th>
+                        <th>Nama</th>
+                        <th>Alamat Gudang</th>
+                        <th>Stok</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="gudangBarang, iterationStatus : ${listGudangBarangFiltered}">
+                        <th scope="row" th:text="${iterationStatus.count}"></th>
+                        <td>
+                            <a th:href="@{/gudang/{idGudang}(idGudang=${gudangBarang.gudang.idGudang})}" th:text="${gudangBarang.gudang.namaGudang}"></a>
+                        </td>
+                        <td th:text="${gudangBarang.gudang.alamatGudang}"></td>
+                        <td th:text="${gudangBarang.stok}"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div th:unless="${listGudangBarangFiltered != null and not #lists.isEmpty(listGudangBarangFiltered)}">
+            <p class="card-text text-center fs-4 text-danger mt-3">Tidak ada gudang yang menyediakan barang tersebut.</p>
+        </div>  
+
+    </div>
+</body>
+
+</html>

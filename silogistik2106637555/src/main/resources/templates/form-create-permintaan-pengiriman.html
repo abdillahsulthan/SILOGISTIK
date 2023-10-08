@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <object th:insert="~{fragments/common :: js}" th:remove="tag"></object>
+    <object th:insert="~{fragments/common :: css}" th:remove="tag"></object>
+    <title>Buat Permintaan Pengiriman</title>
+</head>
+<body>
+  <div class="container">
+    <div class="card mt-5">
+      <div class="card-header">
+        Tambah Permintaan Pengiriman
+      </div>
+      <div class="card-body">
+        <div class="row mb-3">
+          <div class="col-md-6">
+            <label for="karyawan">Karyawan Bertugas:</label>
+            <input type="text" class="form-control" id="karyawan" placeholder="Nama Karyawan">
+          </div>
+          <div class="col-md-6">
+            <label for="tanggal">Tanggal Pengiriman:</label>
+            <input type="date" class="form-control" id="tanggal">
+          </div>
+        </div>
+        <div class="row mb-3">
+          <div class="col-md-6">
+            <label for="namaPenerima">Nama Penerima:</label>
+            <input type="text" class="form-control" id="namaPenerima" placeholder="Nama Penerima">
+          </div>
+          <div class="col-md-6">
+            <label for="jenisLayanan">Jenis Layanan:</label>
+            <select class="form-control" id="jenisLayanan">
+              <option value="1">Layanan 1</option>
+              <option value="2">Layanan 2</option>
+              <!-- Add more options as needed -->
+            </select>
+          </div>
+        </div>
+        <div class="row mb-3">
+          <div class="col-md-6">
+            <label for="alamatPenerima">Alamat Penerima:</label>
+            <input type="text" class="form-control" id="alamatPenerima" placeholder="Alamat Penerima">
+          </div>
+          <div class="col-md-6">
+            <label for="biayaPengiriman">Biaya Pengiriman:</label>
+            <input type="number" class="form-control" id="biayaPengiriman" placeholder="Biaya Pengiriman">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <button class="btn btn-primary float-right">+ Tambah Barang</button>
+          </div>
+        </div>
+        <div class="row mt-4">
+          <div class="col-md-12">
+            <!-- Tabel data pengiriman (centered) -->
+            <table class="table text-center">
+              <thead>
+                <tr>
+                  <th>Barang</th>
+                  <th>Jumlah</th>
+                  <!-- Add more table headers as needed -->
+                </tr>
+              </thead>
+              <tbody>
+                <!-- Add table rows with data as needed -->
+                <tr>
+                  <td>Barang 1</td>
+                  <td>10</td>
+                </tr>
+                <tr>
+                  <td>Barang 2</td>
+                  <td>5</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
