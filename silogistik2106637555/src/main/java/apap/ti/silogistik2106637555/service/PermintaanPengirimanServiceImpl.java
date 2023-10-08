@@ -66,7 +66,12 @@ public class PermintaanPengirimanServiceImpl implements PermintaanPengirimanServ
     }
 
     @Override
-    public PermintaanPengiriman getPermintaanPengirimanByNomorPengiriman(String nomorPengiriman) {
-        return permintaanPengirimanDb.findPermintaanPengirimanByNomorPengiriman(nomorPengiriman);
+    public PermintaanPengiriman getPermintaanPengirimanById(long idPermintaanPengiriman) {
+        return permintaanPengirimanDb.findPermintaanPengirimanByIdPermintaanPengiriman(idPermintaanPengiriman);
+    }
+
+    @Override
+    public void cancelPermintaanPengiriman(PermintaanPengiriman permintaanPengiriman) {
+        permintaanPengirimanDb.delete(permintaanPengiriman);
     }    
 }

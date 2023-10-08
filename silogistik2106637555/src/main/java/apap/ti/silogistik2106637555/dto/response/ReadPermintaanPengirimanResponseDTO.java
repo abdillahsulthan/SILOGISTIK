@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class ReadPermintaanPengirimanResponseDTO{
+    private long idPermintaanPengiriman;
     private String nomorPengiriman;
     private Date waktuPermintaan;
     private Karyawan karyawan;

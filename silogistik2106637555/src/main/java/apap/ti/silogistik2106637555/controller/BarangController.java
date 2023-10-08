@@ -18,6 +18,7 @@ import apap.ti.silogistik2106637555.service.BarangService;
 import apap.ti.silogistik2106637555.service.GudangService;
 import apap.ti.silogistik2106637555.service.KaryawanService;
 import apap.ti.silogistik2106637555.service.PermintaanPengirimanService;
+import jakarta.validation.Valid;
 
 @Controller
 public class BarangController {
@@ -70,7 +71,6 @@ public class BarangController {
 
     @GetMapping("barang/{idBarang}")
     public String detailBuku(@PathVariable("idBarang") String idBarang, Model model) {
-        //Mendapatkan buku melalui kodeBuku
         var barang = barangService.getBarangBySku(idBarang);
         var readBarangDTO = barangMapper.barangToReadBarangResponseDTO(barang);
         model.addAttribute("barang", readBarangDTO);

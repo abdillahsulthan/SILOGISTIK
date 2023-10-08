@@ -68,12 +68,20 @@ public class PermintaanPengirimanController {
     }
 
     @GetMapping("permintaan-pengiriman/{idPermintaanPengiriman}")
-    public String detailBuku(@PathVariable("idPermintaanPengiriman") String idPermintaanPengiriman, Model model) {
-        var permintaanPengiriman = permintaanPengirimanService.getPermintaanPengirimanByNomorPengiriman(idPermintaanPengiriman);
+    public String detailPermintaanPengiriman(@PathVariable("idPermintaanPengiriman") long idPermintaanPengiriman, Model model) {
+        var permintaanPengiriman = permintaanPengirimanService.getPermintaanPengirimanById(idPermintaanPengiriman);
         var permintaanPengirimanDTO = permintaanPengirimanMapper.permintaanPengirmanToReadPermintaanPengirimanResponseDTO(permintaanPengiriman);
         model.addAttribute("permintaanPengirimanDTO", permintaanPengirimanDTO);
         model.addAttribute("listPermintaanPengirimanBarang", permintaanPengirimanDTO.getListPermintaanPengirimanBarang());
         return "view-permintaan-pengiriman";
+    }
+
+    @GetMapping("permintaan-pengiriman/{idPermintaanPengiriman}/cancel")
+    public String deletePermintaanPengiriman(@PathVariable("idPermintaanPengiriman") long idPermintaanPengiriman, Model model) {
+        var permintaanPengiriman = permintaanPengirimanService.getPermintaanPengirimanById(idPermintaanPengiriman);
+        permintaanPengirimanService.cancelPermintaanPengiriman(permintaanPengiriman);
+        model.addAttribute("nomorPengiriman", permintaanPengiriman.getNomorPengiriman());
+        return "success-cancel-permintaan-pengiriman";
     }
     
 }

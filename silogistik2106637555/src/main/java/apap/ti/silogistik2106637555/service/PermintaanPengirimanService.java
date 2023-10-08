@@ -9,5 +9,6 @@ public interface PermintaanPengirimanService {
     List<PermintaanPengiriman> getAllPermintaanPengiriman();
     PermintaanPengiriman addPermintaanPengiriman(PermintaanPengiriman permintaanPengirimanFromDTO);
     void generateNomorPengiriman(PermintaanPengiriman permintaanPengiriman, int kuantitasPengiriman);
-    PermintaanPengiriman getPermintaanPengirimanByNomorPengiriman(String nomorPengiriman);
+    PermintaanPengiriman getPermintaanPengirimanById(long idPermintaanPengiriman);
+    void cancelPermintaanPengiriman(PermintaanPengiriman permintaanPengiriman);
 }

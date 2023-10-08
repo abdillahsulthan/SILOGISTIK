@@ -10,12 +10,17 @@ import lombok.Setter;
 import java.util.Date;
 import java.util.List;
 
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
+
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Table(name = "permintaan_pengiriman")
+@SQLDelete(sql = "UPDATE permintaan_pengiriman SET is_canceled = true WHERE id_permintaan_pengiriman=?")
+@Where(clause = "is_canceled=false")
 public class PermintaanPengiriman {
     
     @Id
