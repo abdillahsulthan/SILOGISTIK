@@ -1,6 +1,10 @@
 package apap.ti.silogistik2106637555.service;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,6 +12,7 @@ import org.springframework.stereotype.Service;
 import apap.ti.silogistik2106637555.model.PermintaanPengiriman;
 import apap.ti.silogistik2106637555.model.PermintaanPengirimanBarang;
 import apap.ti.silogistik2106637555.repository.BarangDb;
+import apap.ti.silogistik2106637555.repository.PermintaanPengirimanBarangDb;
 import apap.ti.silogistik2106637555.repository.PermintaanPengirimanDb;
 
 @Service
@@ -15,6 +20,9 @@ public class PermintaanPengirimanServiceImpl implements PermintaanPengirimanServ
     
     @Autowired
     PermintaanPengirimanDb permintaanPengirimanDb;
+
+    @Autowired
+    PermintaanPengirimanBarangDb permintaanPengirimanBarangDb;
 
     @Autowired
     BarangDb barangDb;
@@ -41,7 +49,6 @@ public class PermintaanPengirimanServiceImpl implements PermintaanPengirimanServ
             permintaanPengirimanBarang.setBarang(barang);
             kuantitasPengiriman += permintaanPengirimanBarang.getKuantitasPengiriman();
         }
-        
         generateNomorPengiriman(permintaanPengirimanFromDTO, kuantitasPengiriman);
         permintaanPengirimanDb.save(permintaanPengirimanFromDTO);
         return permintaanPengirimanFromDTO;
@@ -74,4 +81,28 @@ public class PermintaanPengirimanServiceImpl implements PermintaanPengirimanServ
     public void cancelPermintaanPengiriman(PermintaanPengiriman permintaanPengiriman) {
         permintaanPengirimanDb.delete(permintaanPengiriman);
     }    
+
+    @Override
+    public List<PermintaanPengiriman> filterPermintaanPengiriman(Date startDate, Date endDate, String sku) {
+        List<PermintaanPengiriman> listFilterPermintaanPengiriman = new ArrayList<>();
+
+        List<PermintaanPengirimanBarang> temp = new ArrayList<>();
+        List<PermintaanPengirimanBarang> listPPB = permintaanPengirimanBarangDb.findAll();
+        for (PermintaanPengirimanBarang ppb : listPPB) {
+            if(ppb.getBarang().getSku().equals(sku)) {
+                temp.add(ppb);
+            }
+        }
+
+        if(temp.size() != 0) {
+            for (PermintaanPengirimanBarang permintaanPengirimanBarang : temp) {
+                var filtered = permintaanPengirimanBarang.getPermintaanPengiriman();
+                var waktuPermintaan = permintaanPengirimanBarang.getPermintaanPengiriman().getWaktuPermintaan();
+                if (startDate.before(waktuPermintaan) && endDate.after(waktuPermintaan)) {
+                    listFilterPermintaanPengiriman.add(filtered);
+                }
+            }
+        }
+        return listFilterPermintaanPengiriman;
+    }
 }

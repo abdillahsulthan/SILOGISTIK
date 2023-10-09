@@ -1,10 +1,13 @@
 package apap.ti.silogistik2106637555.controller;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -12,9 +15,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import apap.ti.silogistik2106637555.dto.PermintaanPengirimanMapper;
 import apap.ti.silogistik2106637555.dto.request.CreatePermintaanPengirimanRequestDTO;
+import apap.ti.silogistik2106637555.model.PermintaanPengiriman;
 import apap.ti.silogistik2106637555.model.PermintaanPengirimanBarang;
 import apap.ti.silogistik2106637555.service.BarangService;
 import apap.ti.silogistik2106637555.service.KaryawanService;
@@ -97,9 +102,24 @@ public class PermintaanPengirimanController {
     @GetMapping("permintaan-pengiriman/{idPermintaanPengiriman}/cancel")
     public String deletePermintaanPengiriman(@PathVariable("idPermintaanPengiriman") long idPermintaanPengiriman, Model model) {
         var permintaanPengiriman = permintaanPengirimanService.getPermintaanPengirimanById(idPermintaanPengiriman);
+
+        Date waktuPermintaan = permintaanPengiriman.getWaktuPermintaan();
+        Date waktuSekarang = new Date();
+        var perbedaanWaktu = TimeUnit.MILLISECONDS.toHours(waktuSekarang.getTime() - waktuPermintaan.getTime());
+
         permintaanPengirimanService.cancelPermintaanPengiriman(permintaanPengiriman);
+
+        model.addAttribute("perbedaanWaktu", perbedaanWaktu);
         model.addAttribute("nomorPengiriman", permintaanPengiriman.getNomorPengiriman());
         return "success-cancel-permintaan-pengiriman";
+    }
+
+    @GetMapping("filter-permintaan-pengiriman")
+    public String filterPermintaanPengiriman(@RequestParam(value = "startDate", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate, @RequestParam(value = "endDate", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate, @RequestParam(value = "sku", required = false) String sku, Model model) {
+        List<PermintaanPengiriman> filtered = permintaanPengirimanService.filterPermintaanPengiriman(startDate, endDate, sku);
+        model.addAttribute("listFilter", filtered);
+        model.addAttribute("listBarangExisting", barangService.getAllBarang());
+        return "filter-permintaan-pengiriman";
     }
     
 }

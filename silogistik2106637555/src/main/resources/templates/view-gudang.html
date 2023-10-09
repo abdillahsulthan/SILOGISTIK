@@ -7,6 +7,16 @@
     <object th:insert="~{fragments/common :: js}" th:remove="tag"></object>
     <object th:insert="~{fragments/common :: css}" th:remove="tag"></object>
     <title>Detail Gudang</title>
+    <style>
+        .label-column {
+            width: 300px;
+            display: inline-block;
+            text-align: left;
+        }
+        .value-column {
+            margin-left: 100px;
+        }
+    </style>
 </head>
 
 <body>
@@ -18,8 +28,14 @@
                 <a th:href="@{/gudang/{idGudang}/restock-barang(idGudang=${gudangDTO.idGudang})}" class="btn btn-primary active" role="button" aria-pressed="true">+ Restock Barang</a>
             </div>
             <div class="card-body">
-                <p class="card-text text-start fs-5" th:text="'Nama Gudang : ' + ${gudangDTO.namaGudang}"></p>
-                <p class="card-text text-start fs-5" th:text="'Alamat Gudang : ' + ${gudangDTO.alamatGudang}"></p>
+                <p class="card-text text-start fs-5">
+                    <span class="label-column">Nama Gudang</span>
+                    <span class="value-column" th:text="': ' + ${gudangDTO.namaGudang}"></span>
+                </p>
+                <p class="card-text text-start fs-5">
+                    <span class="label-column">Alamat Gudang</span>
+                    <span class="value-column" th:text="': ' + ${gudangDTO.alamatGudang}"></span>
+                </p>
                 <p class="card-text text-start fw-bold fs-4">Daftar barang tersedia:</p>
                 <div th:if="${listAvailableBarangFromGudang != null and not #lists.isEmpty(listAvailableBarangFromGudang)}">
                     <table class="table table-bordered mt-3">

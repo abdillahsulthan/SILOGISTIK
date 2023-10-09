@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <object th:insert="~{fragments/common :: js}" th:remove="tag"></object>
+    <object th:insert="~{fragments/common :: css}" th:remove="tag"></object>
+    <title>Filter Permintaan Pengiriman</title>
+    <style>
+    </style>
+</head>
+<body>
+    <nav th:replace="~{fragments/navbar :: navbar('bonus')}"></nav>
+    <div class="container text-center mt-5">
+        <div class="fs-1 text-center fw-bold">Filter Permintaan Pengiriman</div>
+        <form th:action="@{/filter-permintaan-pengiriman}" method="GET" class="mt-5">
+            <div class="d-flex justify-content-center">
+                <div class="col-12">
+                    <select class="form-select" name="sku">
+                        <div th:each="barangExisting : ${listBarangExisting}">
+                            <option th:value="${barangExisting.sku}" th:text="${barangExisting.merk}"></option>
+                        </div>
+                    </select>
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-center mt-3">
+                <div class="col-5">
+                    <input required type="date" name="startDate" id="startDate" class="form-control" placeholder="Start Date">
+                </div>
+                <div class="col-2">
+                    <p class="text-center">Hingga</p>
+                </div>
+                <div class="col-5">
+                    <input required type="date" name="endDate" id="endDate" class="form-control" placeholder="End Date">
+
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-end mb-3 mt-3">
+                <div class="col-2">
+                    <button class="btn btn-primary w-100" type="submit">Cari</button>
+                </div>
+            </div>
+        </form>
+
+        <div th:if="${listFilter != null and not #lists.isEmpty(listFilter)}">
+            <table class="table table-bordered mt-4">
+                <thead class="bg-dark text-light">
+                    <tr>
+                        <th>#</th>
+                        <th>Waktu Permintaan</th>
+                        <th>Nomor Pengiriman</th>
+                        <th>Nama Penerima</th>
+                        <th>Alamat Penerima</th>
+                        <th>Tanggal Pengiriman</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="permintaanPengiriman, iterationStatus : ${listFilter}">
+                        <th scope="row" th:text="${iterationStatus.count}"></th>
+                        <td th:text="${permintaanPengiriman.waktuPermintaan}"></td>
+                        <td>
+                            <a th:href="@{/permintaan-pengiriman/{idPermintaanPengiriman}(idPermintaanPengiriman=${permintaanPengiriman.idPermintaanPengiriman})}" th:text="${permintaanPengiriman.nomorPengiriman}"></a>
+                        </td>
+                        <td th:text="${permintaanPengiriman.namaPenerima}"></td>
+                        <td th:text="${permintaanPengiriman.alamatPenerima}"></td>
+                        <td th:text="${permintaanPengiriman.tanggalPengiriman}"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div th:unless="${listFilter != null and not #lists.isEmpty(listFilter)}">
+            <p class="card-text text-center fs-4 text-danger mt-4">Tidak ada permintaan pengiriman untuk barang tersebut.</p>
+        </div>
+    </div>
+</body>
+</html>
