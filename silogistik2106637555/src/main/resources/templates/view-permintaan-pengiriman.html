@@ -17,6 +17,11 @@
             margin-left: 100px;
         }
     </style>
+    <script>
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+    </script>
 </head>
 
 <body>
@@ -32,7 +37,10 @@
 
                 <a href="#"
                 th:if="${perbedaanWaktu > 24}"
-                class="btn btn-danger disabled" role="button" aria-pressed="true">Cancel Permintaan</a>
+                class="btn btn-danger" role="button" 
+                data-toggle="tooltip" data-placement="top" 
+                title="Tidak bisa dihapus karena permintaan pengiriman sudah melebihi 1 hari" 
+                aria-disabled="true">Cancel Permintaan</a>
                             
             </div>
             <div class="card-body">
