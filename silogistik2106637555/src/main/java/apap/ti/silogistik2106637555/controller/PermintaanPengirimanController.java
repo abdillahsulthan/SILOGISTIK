@@ -94,6 +94,12 @@ public class PermintaanPengirimanController {
     public String detailPermintaanPengiriman(@PathVariable("idPermintaanPengiriman") long idPermintaanPengiriman, Model model) {
         var permintaanPengiriman = permintaanPengirimanService.getPermintaanPengirimanById(idPermintaanPengiriman);
         var permintaanPengirimanDTO = permintaanPengirimanMapper.permintaanPengirmanToReadPermintaanPengirimanResponseDTO(permintaanPengiriman);
+
+        Date waktuPermintaan = permintaanPengiriman.getWaktuPermintaan();
+        Date waktuSekarang = new Date();
+        var perbedaanWaktu = TimeUnit.MILLISECONDS.toHours(waktuSekarang.getTime() - waktuPermintaan.getTime());
+
+        model.addAttribute("perbedaanWaktu", perbedaanWaktu);
         model.addAttribute("permintaanPengirimanDTO", permintaanPengirimanDTO);
         model.addAttribute("listPermintaanPengirimanBarang", permintaanPengirimanDTO.getListPermintaanPengirimanBarang());
         return "view-permintaan-pengiriman";
@@ -102,14 +108,7 @@ public class PermintaanPengirimanController {
     @GetMapping("permintaan-pengiriman/{idPermintaanPengiriman}/cancel")
     public String deletePermintaanPengiriman(@PathVariable("idPermintaanPengiriman") long idPermintaanPengiriman, Model model) {
         var permintaanPengiriman = permintaanPengirimanService.getPermintaanPengirimanById(idPermintaanPengiriman);
-
-        Date waktuPermintaan = permintaanPengiriman.getWaktuPermintaan();
-        Date waktuSekarang = new Date();
-        var perbedaanWaktu = TimeUnit.MILLISECONDS.toHours(waktuSekarang.getTime() - waktuPermintaan.getTime());
-
         permintaanPengirimanService.cancelPermintaanPengiriman(permintaanPengiriman);
-
-        model.addAttribute("perbedaanWaktu", perbedaanWaktu);
         model.addAttribute("nomorPengiriman", permintaanPengiriman.getNomorPengiriman());
         return "success-cancel-permintaan-pengiriman";
     }
